@@ -256,7 +256,7 @@ function renderCars() {
   );
 
   document.getElementById("cars").innerHTML = filtered.map(c => `
-    <a href="cars/${c.slug}.html" class="card">
+   <a href="cars/detail.html?car=${c.slug}" class="card">
       <div class="car-art">🏎️</div>
       <div class="card-content">
         <div class="brand">${c.brand}</div>
