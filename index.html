@@ -1,160 +1,315 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Supercar World | Süper Otomobiller</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b0b10;color:#f5f5f7;font-family:Arial,sans-serif}
-header{padding:32px 18px;text-align:center;background:linear-gradient(135deg,#26030b,#e31837)}
-header h1{font-size:clamp(28px,5vw,48px);margin:0}
-header p{color:#ffe0e5}
-nav{text-align:center;padding:16px;background:#15151c;position:sticky;top:0}
-nav a{color:white;text-decoration:none;margin:0 12px}
-main{max-width:1150px;margin:auto;padding:20px}
-h2{margin-top:28px}
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
-input,select,button{padding:12px;border-radius:8px;border:1px solid #444;background:#1b1b24;color:white}
-input{flex:1;min-width:180px}
-button{background:#e31837;border:0;cursor:pointer;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:16px}
-.card{background:#17171f;border:1px solid #30303b;border-radius:14px;overflow:hidden}
-.car-art{height:115px;display:flex;align-items:center;justify-content:center;font-size:60px;background:linear-gradient(135deg,#292932,#55101b)}
-.card-content{padding:16px}
-.brand{color:#ff526a;font-size:12px;font-weight:bold;text-transform:uppercase}
-.card h3{margin:8px 0}
-.spec{color:#c8c8d0;font-size:14px;line-height:1.8}
-.price{font-weight:bold;margin-top:10px}
-.compare{margin-top:35px;background:#17171f;padding:20px;border-radius:14px}
-.compare select{width:100%;margin:6px 0}
-#result{line-height:1.8;margin-top:15px;overflow-wrap:anywhere}
-footer{text-align:center;padding:28px;color:#aaa}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #101014;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: linear-gradient(120deg, #b50012, #ef202e);
+  padding: 28px 18px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+nav {
+  background: #19191f;
+  padding: 14px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 22px;
+}
+
+.tools {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+
+input, select, button {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #41414a;
+  background: #222229;
+  color: white;
+  font-size: 15px;
+}
+
+input {
+  flex: 1;
+  min-width: 200px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  display: block;
+  color: white;
+  text-decoration: none;
+  background: #1c1c23;
+  border: 1px solid #34343d;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #ff303d;
+}
+
+.car-art {
+  min-height: 125px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #303039, #15151b);
+  font-size: 65px;
+}
+
+.card-content {
+  padding: 16px;
+}
+
+.brand {
+  color: #ff515b;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  margin: 8px 0 12px;
+}
+
+.spec {
+  color: #d2d2d8;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.price {
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.detail-link {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #d71920;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.compare {
+  margin-top: 40px;
+  padding: 22px;
+  background: #1c1c23;
+  border-radius: 14px;
+}
+
+.compare select {
+  margin: 5px;
+  max-width: 100%;
+}
+
+button {
+  background: #d71920;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f12a35;
+}
+
+#result {
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 24px;
+  text-align: center;
+  background: #19191f;
+  color: #aaa;
+}
 </style>
 </head>
-<body>
-<header>
-<h1>🏎️ SUPERCAR WORLD</h1>
-<p>Dünyanın en heyecan verici otomobillerini keşfet!</p>
-</header>
-<nav>
-<a href="#cars">Arabalar</a>
-<a href="#compare">Karşılaştır</a>
-</nav>
-<main>
-<h2>🚘 Süper otomobil koleksiyonu</h2>
-<p>20 efsane otomobili keşfet ve özelliklerini karşılaştır.</p>
-<div class="tools">
-<input id="search" placeholder="Araba veya marka ara..." oninput="renderCars()">
-<select id="brand" onchange="renderCars()">
-<option value="">Bütün markalar</option>
-<option>Ferrari</option><option>Lamborghini</option>
-<option>McLaren</option><option>Porsche</option>
-<option>Bugatti</option>
-</select>
-</div>
-<div id="cars" class="grid"></div>
 
-<section id="compare" class="compare">
-<h2>⚡ Araba karşılaştır</h2>
-<p>İki araba seç ve özelliklerini yan yana incele.</p>
-<select id="car1"></select>
-<select id="car2"></select>
-<button onclick="compareCars()">Arabaları karşılaştır</button>
-<div id="result"></div>
-</section>
+<body>
+
+<header>
+  <h1>🏎️ SUPERCAR WORLD</h1>
+  <p>Dünyanın en özel süper otomobillerini keşfet!</p>
+</header>
+
+<nav>
+  <a href="#cars">Arabalar</a>
+  <a href="#compare">Karşılaştırma</a>
+</nav>
+
+<main>
+  <h2 id="cars">🚘 Süper otomobil koleksiyonu</h2>
+  <p>20 efsane otomobili keşfet, detaylarını incele ve karşılaştır.</p>
+
+  <div class="tools">
+    <input id="search" placeholder="Araba veya marka ara...">
+    <select id="brand">
+      <option value="">Bütün markalar</option>
+      <option>Ferrari</option>
+      <option>Lamborghini</option>
+      <option>McLaren</option>
+      <option>Porsche</option>
+      <option>Bugatti</option>
+    </select>
+  </div>
+
+  <div id="cars" class="grid"></div>
+
+  <section id="compare" class="compare">
+    <h2>⚡ Araba karşılaştır</h2>
+    <p>İki araba seç ve özelliklerini yan yana incele.</p>
+    <select id="car1"></select>
+    <select id="car2"></select>
+    <button id="compareButton">Arabaları karşılaştır</button>
+    <div id="result"></div>
+  </section>
 </main>
-<footer>© 2026 Supercar World · Otomobil tutkunları için</footer>
+
+<footer>
+  © 2026 Supercar World · Otomobil tutkunları için
+</footer>
 
 <script>
-const cars=[
-{name:"296 GTB",brand:"Ferrari",power:830,zero:2.9,speed:330,price:"Yaklaşık 300.000 $"},
-{name:"SF90 Stradale",brand:"Ferrari",power:1000,zero:2.5,speed:340,price:"Yaklaşık 500.000 $"},
-{name:"F8 Tributo",brand:"Ferrari",power:720,zero:2.9,speed:340,price:"İkinci el fiyatı değişir"},
-{name:"812 Competizione",brand:"Ferrari",power:830,zero:2.9,speed:340,price:"Sınırlı üretim"},
-{name:"Daytona SP3",brand:"Ferrari",power:840,zero:2.9,speed:340,price:"Sınırlı üretim"},
-{name:"Revuelto",brand:"Lamborghini",power:1015,zero:2.5,speed:350,price:"Yaklaşık 600.000 $"},
-{name:"Huracán STO",brand:"Lamborghini",power:640,zero:3.0,speed:310,price:"Yaklaşık 330.000 $"},
-{name:"Aventador SVJ",brand:"Lamborghini",power:770,zero:2.8,speed:350,price:"İkinci el fiyatı değişir"},
-{name:"Temerario",brand:"Lamborghini",power:920,zero:2.7,speed:340,price:"Fiyat pazara göre değişir"},
-{name:"Sián FKP 37",brand:"Lamborghini",power:819,zero:2.8,speed:350,price:"Sınırlı üretim"},
-{name:"750S",brand:"McLaren",power:750,zero:2.8,speed:332,price:"Yaklaşık 330.000 $"},
-{name:"765LT",brand:"McLaren",power:765,zero:2.8,speed:330,price:"Sınırlı üretim"},
-{name:"Artura",brand:"McLaren",power:700,zero:3.0,speed:330,price:"Yaklaşık 250.000 $"},
-{name:"P1",brand:"McLaren",power:916,zero:2.8,speed:350,price:"İkinci el fiyatı değişir"},
-{name:"Senna",brand:"McLaren",power:800,zero:2.8,speed:335,price:"Sınırlı üretim"},
-{name:"911 GT3 RS",brand:"Porsche",power:525,zero:3.2,speed:296,price:"Yaklaşık 250.000 $"},
-{name:"911 Turbo S",brand:"Porsche",power:650,zero:2.7,speed:330,price:"Yaklaşık 230.000 $"},
-{name:"918 Spyder",brand:"Porsche",power:887,zero:2.6,speed:345,price:"İkinci el fiyatı değişir"},
-{name:"Chiron",brand:"Bugatti",power:1500,zero:2.4,speed:420,price:"Milyonlarca dolar"},
-{name:"Tourbillon",brand:"Bugatti",power:1800,zero:2.0,speed:445,price:"Yaklaşık 4 milyon €"}
+const cars = [
+  {name:"296 GTB",brand:"Ferrari",slug:"ferrari-296",power:830,zero:2.9,speed:330,price:"Yaklaşık 300.000 $"},
+  {name:"SF90 Stradale",brand:"Ferrari",slug:"ferrari-sf90",power:1000,zero:2.5,speed:340,price:"Yaklaşık 500.000 $"},
+  {name:"F8 Tributo",brand:"Ferrari",slug:"ferrari-f8",power:720,zero:2.9,speed:340,price:"Fiyatı değişebilir"},
+  {name:"812 Competizione",brand:"Ferrari",slug:"ferrari-812-competizione",power:830,zero:2.9,speed:340,price:"Sınırlı üretim"},
+  {name:"Daytona SP3",brand:"Ferrari",slug:"ferrari-daytona-sp3",power:840,zero:2.9,speed:340,price:"Sınırlı üretim"},
+
+  {name:"Revuelto",brand:"Lamborghini",slug:"lamborghini-revuelto",power:1015,zero:2.5,speed:350,price:"Yaklaşık 600.000 $"},
+  {name:"Huracán STO",brand:"Lamborghini",slug:"lamborghini-huracan-sto",power:640,zero:3.0,speed:310,price:"Yaklaşık 330.000 $"},
+  {name:"Aventador SVJ",brand:"Lamborghini",slug:"lamborghini-aventador-svj",power:770,zero:2.8,speed:350,price:"İkinci el fiyatı değişir"},
+  {name:"Temerario",brand:"Lamborghini",slug:"lamborghini-temerario",power:920,zero:2.7,speed:340,price:"Fiyatı değişebilir"},
+  {name:"Sián FKP 37",brand:"Lamborghini",slug:"lamborghini-sian",power:819,zero:2.8,speed:350,price:"Sınırlı üretim"},
+
+  {name:"750S",brand:"McLaren",slug:"mclaren-750s",power:750,zero:2.8,speed:332,price:"Yaklaşık 330.000 $"},
+  {name:"765LT",brand:"McLaren",slug:"mclaren-765lt",power:765,zero:2.8,speed:330,price:"Sınırlı üretim"},
+  {name:"Artura",brand:"McLaren",slug:"mclaren-artura",power:700,zero:3.0,speed:330,price:"Yaklaşık 250.000 $"},
+  {name:"P1",brand:"McLaren",slug:"mclaren-p1",power:916,zero:2.8,speed:350,price:"İkinci el fiyatı değişir"},
+  {name:"Senna",brand:"McLaren",slug:"mclaren-senna",power:800,zero:2.8,speed:335,price:"Sınırlı üretim"},
+
+  {name:"911 GT3 RS",brand:"Porsche",slug:"porsche-911-gt3-rs",power:525,zero:3.2,speed:296,price:"Yaklaşık 250.000 $"},
+  {name:"911 Turbo S",brand:"Porsche",slug:"porsche-911-turbo-s",power:650,zero:2.7,speed:330,price:"Yaklaşık 230.000 $"},
+  {name:"918 Spyder",brand:"Porsche",slug:"porsche-918-spyder",power:887,zero:2.6,speed:345,price:"İkinci el fiyatı değişir"},
+
+  {name:"Chiron",brand:"Bugatti",slug:"bugatti-chiron",power:1500,zero:2.4,speed:420,price:"Milyonlarca dolar"},
+  {name:"Tourbillon",brand:"Bugatti",slug:"bugatti-tourbillon",power:1800,zero:2.0,speed:445,price:"Yaklaşık 4 milyon €"}
 ];
-const carPages = {
- "Ferrari 296 GTB": "ferrari-296",
- "Ferrari SF90 Stradale": "ferrari-sf90",
- "Ferrari F8 Tributo": "ferrari-f8",
- "Ferrari 812 Competizione": "ferrari-812-competizione",
- "Ferrari Daytona SP3": "ferrari-daytona-sp3",
- "Lamborghini Revuelto": "lamborghini-revuelto",
- "Lamborghini Huracán STO": "lamborghini-huracan-sto",
- "Lamborghini Aventador SVJ": "lamborghini-aventador-svj",
- "Lamborghini Temerario": "lamborghini-temerario",
- "Lamborghini Sián FKP 37": "lamborghini-sian",
- "McLaren 750S": "mclaren-750s",
- "McLaren 765LT": "mclaren-765lt",
- "McLaren Artura": "mclaren-artura",
- "McLaren P1": "mclaren-p1",
- "McLaren Senna": "mclaren-senna",
- "Porsche 911 GT3 RS": "porsche-911-gt3-rs",
- "Porsche 911 Turbo S": "porsche-911-turbo-s",
- "Porsche 918 Spyder": "porsche-918-spyder",
- "Bugatti Chiron": "bugatti-chiron",
- "Bugatti Tourbillon": "bugatti-tourbillon"
-};
-function renderCars(){
- const query=document.getElementById("search").value.toLowerCase();
- const brand=document.getElementById("brand").value;
- const filtered=cars.filter(c=>
-  (c.name+" "+c.brand).toLowerCase().includes(query)&&
-  (!brand||c.brand===brand));
- document.getElementById("cars").innerHTML=filtered.map(c=>`
-  <a href="cars/${carPages[c.brand + " " + c.name]}.html" class="card">🏎️</div>
-   <div class="card-content">
-    <div class="brand">${c.brand}</div>
-    <h3>${c.name}</h3>
-    <div class="spec">
-     Güç: ${c.power} hp<br>
-     0–100 km/sa: ${c.zero.toLocaleString("tr-TR")} sn<br>
-     Azami hız: ${c.speed} km/sa
-    </div>
-    <div class="price">${c.price}</div>
-   </div>
-  </a>`).join("");
- if(!filtered.length){
-  document.getElementById("cars").innerHTML="<p>Araba bulunamadı.</p>";
- }
+
+function renderCars() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const brand = document.getElementById("brand").value;
+
+  const filtered = cars.filter(c =>
+    (c.name + " " + c.brand).toLowerCase().includes(query) &&
+    (!brand || c.brand === brand)
+  );
+
+  document.getElementById("cars").innerHTML = filtered.map(c => `
+    <a href="cars/${c.slug}.html" class="card">
+      <div class="car-art">🏎️</div>
+      <div class="card-content">
+        <div class="brand">${c.brand}</div>
+        <h3>${c.name}</h3>
+        <div class="spec">
+          Güç: ${c.power} hp<br>
+          0–100 km/sa: ${c.zero.toLocaleString("tr-TR")} sn<br>
+          Azami hız: ${c.speed} km/sa
+        </div>
+        <div class="price">${c.price}</div>
+        <span class="detail-link">Detayları incele →</span>
+      </div>
+    </a>
+  `).join("");
+
+  if (!filtered.length) {
+    document.getElementById("cars").innerHTML =
+      "<p>Araba bulunamadı.</p>";
+  }
 }
 
-function fillSelects(){
- ["car1","car2"].forEach((id,index)=>{
-  document.getElementById(id).innerHTML=cars.map((c,i)=>
-   `<option value="${i}" ${i===(index===0?0:1)?"selected":""}>${c.brand} ${c.name}</option>`
-  ).join("");
- });
+function fillSelects() {
+  ["car1", "car2"].forEach((id, index) => {
+    document.getElementById(id).innerHTML = cars.map((c, i) =>
+      `<option value="${i}" ${i === index ? "selected" : ""}>${c.brand} ${c.name}</option>`
+    ).join("");
+  });
 }
 
-function compareCars(){
- const a=cars[Number(document.getElementById("car1").value)];
- const b=cars[Number(document.getElementById("car2").value)];
- document.getElementById("result").innerHTML=`
- <h3>${a.brand} ${a.name} vs ${b.brand} ${b.name}</h3>
- <p><b>Güç:</b> ${a.power} hp — ${b.power} hp</p>
- <p><b>0–100 km/sa:</b> ${a.zero} sn — ${b.zero} sn</p>
- <p><b>Azami hız:</b> ${a.speed} km/sa — ${b.speed} km/sa</p>
- <p><b>Daha güçlü:</b> ${a.power===b.power?"Güçleri eşit":a.power>b.power?a.brand+" "+a.name:b.brand+" "+b.name}</p>`;
+function compareCars() {
+  const a = cars[Number(document.getElementById("car1").value)];
+  const b = cars[Number(document.getElementById("car2").value)];
+
+  document.getElementById("result").innerHTML = `
+    <h3>${a.brand} ${a.name} vs ${b.brand} ${b.name}</h3>
+    <p><b>Güç:</b> ${a.power} hp — ${b.power} hp</p>
+    <p><b>0–100 km/sa:</b> ${a.zero} sn — ${b.zero} sn</p>
+    <p><b>Azami hız:</b> ${a.speed} km/sa — ${b.speed} km/sa</p>
+    <p><b>Daha güçlü:</b> ${
+      a.power === b.power ? "Güçleri eşit" :
+      a.power > b.power ? a.brand + " " + a.name :
+      b.brand + " " + b.name
+    }</p>
+  `;
 }
+
+document.getElementById("search").addEventListener("input", renderCars);
+document.getElementById("brand").addEventListener("change", renderCars);
+document.getElementById("compareButton").addEventListener("click", compareCars);
+
 fillSelects();
 renderCars();
 </script>
+
 </body>
 </html>
