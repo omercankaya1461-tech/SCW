@@ -289,20 +289,118 @@ function fillSelects() {
 function compareCars() {
   const a = cars[Number(document.getElementById("car1").value)];
   const b = cars[Number(document.getElementById("car2").value)];
+  const result = document.getElementById("result");
 
-  document.getElementById("result").innerHTML = `
-    <h3>${a.brand} ${a.name} vs ${b.brand} ${b.name}</h3>
-    <p><b>Güç:</b> ${a.power} hp — ${b.power} hp</p>
-    <p><b>0–100 km/sa:</b> ${a.zero} sn — ${b.zero} sn</p>
-    <p><b>Azami hız:</b> ${a.speed} km/sa — ${b.speed} km/sa</p>
-    <p><b>Daha güçlü:</b> ${
-      a.power === b.power ? "Güçleri eşit" :
-      a.power > b.power ? a.brand + " " + a.name :
-      b.brand + " " + b.name
-    }</p>
+  if (!a || !b) {
+    result.textContent = "Lütfen iki otomobil seç.";
+    return;
+  }
+
+  const nameA = `${a.brand} ${a.name}`;
+  const nameB = `${b.brand} ${b.name}`;
+
+  const categories = [
+    {
+      name: "Motor gücü",
+      valueA: a.power,
+      valueB: b.power,
+      unit: "hp",
+      higher: true
+    },
+    {
+      name: "0–100 km/sa",
+      valueA: a.zero,
+      valueB: b.zero,
+      unit: "sn",
+      higher: false
+    },
+    {
+      name: "Azami hız",
+      valueA: a.speed,
+      valueB: b.speed,
+      unit: "km/sa",
+      higher: true
+    }
+  ];
+
+  let scoreA = 0;
+  let scoreB = 0;
+
+  const rows = categories.map(c => {
+    const valid =
+      Number.isFinite(Number(c.valueA)) &&
+      Number.isFinite(Number(c.valueB));
+
+    let winner = "Eşit";
+    let diff = "Hesaplanamadı";
+
+    if (valid) {
+      const x = Number(c.valueA);
+      const y = Number(c.valueB);
+
+      diff = `${Math.abs(x - y).toLocaleString("tr-TR")} ${c.unit}`;
+
+      if (x !== y) {
+        const aWins = c.higher ? x > y : x < y;
+        winner = aWins ? nameA : nameB;
+        if (aWins) scoreA++;
+        else scoreB++;
+      }
+    }
+
+    return `
+      <tr>
+        <td>${c.name}</td>
+        <td>${c.valueA} ${c.unit}</td>
+        <td>${c.valueB} ${c.unit}</td>
+        <td>${diff}</td>
+        <td>${valid ? winner : "Veri yok"}</td>
+      </tr>
+    `;
+  }).join("");
+
+  const verdict =
+    scoreA === scoreB
+      ? "Karşılaştırma berabere!"
+      : scoreA > scoreB
+        ? `${nameA} daha fazla kategoride önde.`
+        : `${nameB} daha fazla kategoride önde.`;
+
+  result.innerHTML = `
+    <div style="margin-top:24px; padding:20px;
+      border:1px solid #444; border-radius:16px;
+      overflow-x:auto;">
+      <h2 style="margin-top:0;">🏁 NORVEYO Karşılaştırma</h2>
+      <h3>${nameA} <span style="color:#888;">VS</span> ${nameB}</h3>
+
+      <table style="width:100%; border-collapse:collapse;
+        min-width:560px;">
+        <thead>
+          <tr>
+            <th>Özellik</th>
+            <th>${nameA}</th>
+            <th>${nameB}</th>
+            <th>Fark</th>
+            <th>Önde olan</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+
+      <div style="margin-top:20px; padding:16px;
+        background:#202020; border-radius:12px;">
+        <h3>🏆 Karşılaştırma puanı</h3>
+        <p>${nameA}: <b>${scoreA}</b> kategori</p>
+        <p>${nameB}: <b>${scoreB}</b> kategori</p>
+        <h3>${verdict}</h3>
+        <p style="color:#bbb; font-size:13px;">
+          Puanlama yalnızca güç, hızlanma ve azami hızı kapsar.
+          Bu sonuç genel olarak en iyi otomobili belirlemez.
+        </p>
+      </div>
+    </div>
   `;
 }
-
 document.getElementById("search").addEventListener("input", renderCars);
 document.getElementById("brand").addEventListener("change", renderCars);
 document.getElementById("compareButton").addEventListener("click", compareCars);
