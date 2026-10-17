@@ -326,38 +326,50 @@ function compareCars() {
   let scoreA = 0;
   let scoreB = 0;
 
-  const rows = categories.map(c => {
-    const valid =
-      Number.isFinite(Number(c.valueA)) &&
-      Number.isFinite(Number(c.valueB));
+const rows = categories.map(c => {
+  const valid =
+    Number.isFinite(Number(c.valueA)) &&
+    Number.isFinite(Number(c.valueB));
 
-    let winner = "Eşit";
-    let diff = "Hesaplanamadı";
+  let winner = "Eşit";
+  let diff = "Hesaplanamadı";
 
-    if (valid) {
-      const x = Number(c.valueA);
-      const y = Number(c.valueB);
+  if (valid) {
+    const x = Number(c.valueA);
+    const y = Number(c.valueB);
 
-      diff = `${Math.abs(x - y).toLocaleString("tr-TR")} ${c.unit}`;
+    diff = `${Math.abs(x - y).toLocaleString("tr-TR")} ${c.unit}`;
 
-      if (x !== y) {
-        const aWins = c.higher ? x > y : x < y;
-        winner = aWins ? nameA : nameB;
-        if (aWins) scoreA++;
-        else scoreB++;
-      }
+    if (x !== y) {
+      const aWins = c.higher ? x > y : x < y;
+      winner = aWins ? nameA : nameB;
+      if (aWins) scoreA++;
+      else scoreB++;
     }
+  }
 
-    return `
-      <tr>
-        <td>${c.name}</td>
-        <td>${c.valueA} ${c.unit}</td>
-        <td>${c.valueB} ${c.unit}</td>
-        <td>${diff}</td>
-        <td>${valid ? winner : "Veri yok"}</td>
-      </tr>
-    `;
-  }).join("");
+  const colorA = winner === nameA
+    ? "background:#164b2b; color:#8cffad;"
+    : "";
+
+  const colorB = winner === nameB
+    ? "background:#164b2b; color:#8cffad;"
+    : "";
+
+  return `
+    <tr>
+      <td>${c.name}</td>
+      <td style="${colorA} padding:10px;">
+        ${c.valueA} ${c.unit}${winner === nameA ? " 🏆" : ""}
+      </td>
+      <td style="${colorB} padding:10px;">
+        ${c.valueB} ${c.unit}${winner === nameB ? " 🏆" : ""}
+      </td>
+      <td>${diff}</td>
+      <td>${valid ? winner : "Veri yok"}</td>
+    </tr>
+  `;
+}).join("");
 
   const verdict =
     scoreA === scoreB
