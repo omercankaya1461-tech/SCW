@@ -201,7 +201,7 @@ const CAR_DATA = {
   }
 };
 
-const slug = document.body.dataset.slug;
+const slug = new URLSearchParams(window.location.search).get("car") || document.body.dataset.slug;
 const car = CAR_DATA[slug];
 const app = document.getElementById("app");
 
