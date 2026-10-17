@@ -89,7 +89,28 @@ const cars=[
 {name:"Chiron",brand:"Bugatti",power:1500,zero:2.4,speed:420,price:"Milyonlarca dolar"},
 {name:"Tourbillon",brand:"Bugatti",power:1800,zero:2.0,speed:445,price:"Yaklaşık 4 milyon €"}
 ];
-
+const carPages = {
+ "Ferrari 296 GTB": "ferrari-296",
+ "Ferrari SF90 Stradale": "ferrari-sf90",
+ "Ferrari F8 Tributo": "ferrari-f8",
+ "Ferrari 812 Competizione": "ferrari-812-competizione",
+ "Ferrari Daytona SP3": "ferrari-daytona-sp3",
+ "Lamborghini Revuelto": "lamborghini-revuelto",
+ "Lamborghini Huracán STO": "lamborghini-huracan-sto",
+ "Lamborghini Aventador SVJ": "lamborghini-aventador-svj",
+ "Lamborghini Temerario": "lamborghini-temerario",
+ "Lamborghini Sián FKP 37": "lamborghini-sian",
+ "McLaren 750S": "mclaren-750s",
+ "McLaren 765LT": "mclaren-765lt",
+ "McLaren Artura": "mclaren-artura",
+ "McLaren P1": "mclaren-p1",
+ "McLaren Senna": "mclaren-senna",
+ "Porsche 911 GT3 RS": "porsche-911-gt3-rs",
+ "Porsche 911 Turbo S": "porsche-911-turbo-s",
+ "Porsche 918 Spyder": "porsche-918-spyder",
+ "Bugatti Chiron": "bugatti-chiron",
+ "Bugatti Tourbillon": "bugatti-tourbillon"
+};
 function renderCars(){
  const query=document.getElementById("search").value.toLowerCase();
  const brand=document.getElementById("brand").value;
@@ -97,8 +118,7 @@ function renderCars(){
   (c.name+" "+c.brand).toLowerCase().includes(query)&&
   (!brand||c.brand===brand));
  document.getElementById("cars").innerHTML=filtered.map(c=>`
-  <article class="card">
-   <div class="car-art">🏎️</div>
+  <a href="cars/${carPages[c.brand + " " + c.name]}.html" class="card">🏎️</div>
    <div class="card-content">
     <div class="brand">${c.brand}</div>
     <h3>${c.name}</h3>
@@ -109,7 +129,7 @@ function renderCars(){
     </div>
     <div class="price">${c.price}</div>
    </div>
-  </article>`).join("");
+  </a>`).join("");
  if(!filtered.length){
   document.getElementById("cars").innerHTML="<p>Araba bulunamadı.</p>";
  }
