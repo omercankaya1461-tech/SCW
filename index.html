@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supercar World</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101014;
+  color: white;
+}
+header {
+  background: #e31837;
+  padding: 24px;
+  text-align: center;
+}
+header h1 { margin: 0; font-size: 32px; }
+nav { padding: 15px; text-align: center; }
+nav a { color: white; margin: 10px; text-decoration: none; }
+.intro { text-align: center; padding: 30px 15px; }
+.cars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+.card {
+  background: #202027;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #383840;
+}
+.card h2 { color: #ff334f; }
+.card p { color: #ddd; }
+button {
+  background: #e31837;
+  color: white;
+  border: 0;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+select {
+  padding: 10px;
+  border-radius: 6px;
+  max-width: 100%;
+}
+#result { margin-top: 15px; line-height: 1.8; }
+footer { text-align: center; padding: 25px; color: #aaa; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏎️ SUPERCAR WORLD</h1>
+  <p>Dünyanın en heyecan verici otomobilleri!</p>
+</header>
+
+<nav>
+  <a href="#cars">Arabalar</a>
+  <a href="#compare">Karşılaştır</a>
+</nav>
+
+<section class="intro">
+  <h2>Hayalindeki süper otomobili keşfet</h2>
+  <p>Arabaları incele, özelliklerini karşılaştır ve favorini seç!</p>
+</section>
+
+<section class="cars" id="cars">
+  <article class="card">
+    <h2>Ferrari 296 GTB</h2>
+    <p>Güç: 830 hp</p>
+    <p>0–100 km/sa: 2,9 saniye</p>
+    <p>Azami hız: 330 km/sa üzeri</p>
+  </article>
+  <article class="card">
+    <h2>Lamborghini Revuelto</h2>
+    <p>Güç: 1015 CV</p>
+    <p>0–100 km/sa: 2,5 saniye</p>
+    <p>Azami hız: 350 km/sa üzeri</p>
+  </article>
+  <article class="card">
+    <h2>McLaren 750S</h2>
+    <p>Güç: 750 PS</p>
+    <p>0–100 km/sa: 2,8 saniye</p>
+    <p>Azami hız: 332 km/sa</p>
+  </article>
+  <article class="card">
+    <h2>Porsche 911 GT3 RS</h2>
+    <p>Güç: 525 PS</p>
+    <p>0–100 km/sa: 3,2 saniye</p>
+    <p>Azami hız: 296 km/sa</p>
+  </article>
+</section>
+
+<section class="intro" id="compare">
+  <h2>İki arabayı karşılaştır</h2>
+  <select id="car1">
+    <option value="0">Ferrari 296 GTB</option>
+    <option value="1">Lamborghini Revuelto</option>
+    <option value="2">McLaren 750S</option>
+    <option value="3">Porsche 911 GT3 RS</option>
+  </select>
+  <select id="car2">
+    <option value="1">Lamborghini Revuelto</option>
+    <option value="0">Ferrari 296 GTB</option>
+    <option value="2">McLaren 750S</option>
+    <option value="3">Porsche 911 GT3 RS</option>
+  </select>
+  <button onclick="compareCars()">Karşılaştır!</button>
+  <div id="result"></div>
+</section>
+
+<footer>© 2026 Supercar World | Otomobil tutkunları için ❤️</footer>
+
+<script>
+const cars = [
+  {name:"Ferrari 296 GTB", power:830, speed:"330 km/sa üzeri", zero:"2,9 saniye"},
+  {name:"Lamborghini Revuelto", power:1015, speed:"350 km/sa üzeri", zero:"2,5 saniye"},
+  {name:"McLaren 750S", power:750, speed:"332 km/sa", zero:"2,8 saniye"},
+  {name:"Porsche 911 GT3 RS", power:525, speed:"296 km/sa", zero:"3,2 saniye"}
+];
+
+function compareCars() {
+  const a = cars[Number(document.getElementById("car1").value)];
+  const b = cars[Number(document.getElementById("car2").value)];
+  document.getElementById("result").innerHTML =
+    "<h3>"+a.name+" vs "+b.name+"</h3>"+
+    "<p>"+a.name+": "+a.power+" hp | 0–100: "+a.zero+" | "+a.speed+"</p>"+
+    "<p>"+b.name+": "+b.power+" hp | 0–100: "+b.zero+" | "+b.speed+"</p>";
+}
+</script>
+</body>
+</html>
