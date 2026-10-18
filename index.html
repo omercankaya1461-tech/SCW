@@ -359,10 +359,10 @@ const rows = categories.map(c => {
   return `
     <tr>
       <td>${c.name}</td>
-      <td style="${colorA} padding:10px;">
+     <td style="${colorA}; padding:12px; text-align:center;">
         ${c.valueA} ${c.unit}${winner === nameA ? " 🏆" : ""}
       </td>
-      <td style="${colorB} padding:10px;">
+     <td style="${colorB}; padding:12px; text-align:center;">
         ${c.valueB} ${c.unit}${winner === nameB ? " 🏆" : ""}
       </td>
       <td>${diff}</td>
