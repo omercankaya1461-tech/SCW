@@ -435,6 +435,107 @@ footer{border-top:1px solid var(--line);margin-top:65px;padding:30px 5%;color:va
     pointer-events: none;
   }
 }
+.car-detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.car-detail-modal[hidden] {
+  display: none;
+}
+
+.car-detail-panel {
+  position: relative;
+  width: min(950px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #111;
+  border: 1px solid rgba(242, 29, 53, 0.65);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(242, 29, 53, 0.2);
+  animation: detailEnter 0.3s ease;
+}
+
+.car-detail-image {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  background: #181818;
+}
+
+.car-detail-content {
+  padding: 26px;
+}
+
+.car-detail-content h2 {
+  margin: 6px 0 18px;
+  font-size: clamp(25px, 5vw, 42px);
+}
+
+.car-detail-close {
+  position: sticky;
+  float: right;
+  top: 10px;
+  margin: 10px 10px -54px 0;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #f21d35;
+  border-radius: 50%;
+  background: #111;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.car-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.car-detail-stat {
+  padding: 16px 10px;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background: #191919;
+}
+
+.car-detail-stat strong {
+  display: block;
+  color: #f21d35;
+  font-size: 20px;
+}
+
+.car-detail-stat span {
+  display: block;
+  margin-top: 6px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+@keyframes detailEnter {
+  from { opacity: 0; transform: translateY(18px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 520px) {
+  .car-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .car-detail-content { padding: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-detail-panel { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -800,7 +901,69 @@ function toggleDetails(id) {
   const el = document.getElementById("details-" + id);
   if (el) el.hidden = !el.hidden;
 }
+function openCarDetails(id) {
+  const car = cars.find(c => c.id === id);
+  if (!car) return;
 
+  const modal = document.getElementById("carDetailModal");
+  const content = document.getElementById("carDetailContent");
+
+  const safe = value => String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+  content.innerHTML = `
+    <img
+      class="car-detail-image"
+      src="${safe(car.image || PLACEHOLDER_IMAGE)}"
+      alt="${safe(car.brand)} ${safe(car.name)}"
+    >
+    <div class="car-detail-content">
+      <div class="brand">${safe(car.brand)}</div>
+      <h2 id="carDetailTitle">${safe(car.name)}</h2>
+      <div class="car-detail-grid">
+        <div class="car-detail-stat">
+          <strong>${car.power.toLocaleString("tr-TR")} HP</strong>
+          <span>Motor gücü</span>
+        </div>
+        <div class="car-detail-stat">
+          <strong>${safe(car.zero)} sn</strong>
+          <span>0–100 km/sa</span>
+        </div>
+        <div class="car-detail-stat">
+          <strong>${safe(car.speed)} km/sa</strong>
+          <span>Maksimum hız</span>
+        </div>
+      </div>
+      <p>Performans puanı: <strong>${performanceScore(car)}/100</strong></p>
+      <h3>Fiyat</h3>
+      <p>${safe(car.price)}</p>
+      <button class="btn" type="button"
+        onclick="closeCarDetails()">KAPAT</button>
+    </div>
+  `;
+
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  modal.querySelector(".car-detail-close").focus();
+}
+
+function closeCarDetails() {
+  const modal = document.getElementById("carDetailModal");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+document.getElementById("carDetailModal").addEventListener("click", event => {
+  if (event.target.id === "carDetailModal") closeCarDetails();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeCarDetails();
+});
 const selectIds = ["compare1", "compare2", "compare3"];
 
 selectIds.forEach(id => {
@@ -942,5 +1105,16 @@ brandFilter.addEventListener("change", renderCars);
 renderCars();
 loadMissingPhotos();
 </script>
+<div class="car-detail-modal" id="carDetailModal" hidden>
+  <section
+    class="car-detail-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="carDetailTitle"
+  >
+   <button class="btn secondary" onclick="openCarDetails(${c.id})">Araç detayları</button>
+    <div id="carDetailContent"></div>
+  </section>
+</div>
 </body>
 </html>
