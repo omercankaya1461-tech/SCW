@@ -5,38 +5,337 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NORRVEYO | Süper Otomobiller</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101014;color:white;font-family:Arial,sans-serif}
-header{background:linear-gradient(120deg,#b50012,#ef202e);padding:28px 18px;text-align:center}
-header h1{margin:0;font-size:32px;letter-spacing:2px}
-nav{background:#19191f;padding:14px;text-align:center}
-nav a{color:white;text-decoration:none;margin:0 12px}
-main{max-width:1200px;margin:auto;padding:22px}
-.tools{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
-input,select,button{padding:12px;border-radius:8px;border:1px solid #41414a;background:#222229;color:white;font-size:15px}
-input{flex:1;min-width:200px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
-.card{display:block;color:white;text-decoration:none;background:#1c1c23;border:1px solid #34343d;border-radius:14px;overflow:hidden;transition:.2s}
-.card:hover{transform:translateY(-5px);border-color:#ff303d}
-.car-art{height:180px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#303039,#15151b);font-size:55px;overflow:hidden}
-.car-art img{width:100%;height:100%;object-fit:contain;display:block}
-.card-content{padding:16px}
-.brand{color:#ff515b;font-size:13px;font-weight:bold;text-transform:uppercase}
-.card h3{margin:8px 0 12px}
-.spec{color:#d2d2d8;line-height:1.8;font-size:14px}
-.price{margin-top:12px;font-weight:bold}
-.detail-link{display:inline-block;margin-top:14px;padding:10px 14px;background:#d71920;border-radius:8px;font-size:14px}
-.compare{margin-top:40px;padding:22px;background:#1c1c23;border-radius:14px}
-.compare select{margin:5px;max-width:100%}
-button{background:#d71920;border:none;cursor:pointer}
-button:hover{background:#f12a35}
-#result{line-height:1.8;overflow-x:auto;overflow-wrap:anywhere}
-#result table{width:100%;min-width:600px;border-collapse:collapse;font-size:14px}
-#result th{background:#292929;color:#8cffad;padding:14px 10px;border-bottom:1px solid #555}
-#result td{padding:12px 10px;text-align:center;border-bottom:1px solid #383838}
-#result td:first-child{text-align:left}
-#result tbody tr:nth-child(even){background:#191919}
-footer{margin-top:40px;padding:24px;text-align:center;background:#19191f;color:#aaa}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #090a0d;
+  --panel: #13151a;
+  --panel-light: #1b1e25;
+  --red: #f21d35;
+  --red-dark: #a80e22;
+  --text: #f5f5f7;
+  --muted: #a3a7b1;
+  --border: #292d36;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, #341018 0%, transparent 38%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+header {
+  position: relative;
+  overflow: hidden;
+  padding: 54px 20px 48px;
+  text-align: center;
+  background: linear-gradient(135deg, #1a0b10, #090a0d 65%);
+  border-bottom: 1px solid #52202a;
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-shadow: 0 0 28px #f21d3538;
+}
+
+header p {
+  color: #c7c7ce;
+  margin: 10px 0 0;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px;
+  background: #0d0e12ee;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+}
+
+nav a {
+  color: #dddfe5;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: color .2s;
+}
+
+nav a:hover {
+  color: var(--red);
+}
+
+main {
+  width: min(1200px, 100%);
+  margin: auto;
+  padding: 30px 22px;
+}
+
+main > h2,
+.compare h2 {
+  font-size: clamp(23px, 3vw, 32px);
+  letter-spacing: -.5px;
+}
+
+main > p,
+.compare > p {
+  color: var(--muted);
+}
+
+.tools {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+
+input,
+select,
+button {
+  min-height: 46px;
+  padding: 12px 15px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid #353944;
+  border-radius: 9px;
+  font: inherit;
+}
+
+input {
+  flex: 1;
+  min-width: 210px;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #f21d3580;
+  border-color: var(--red);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  background: linear-gradient(145deg, #1a1c22, #101115);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #d51d33;
+  box-shadow: 0 12px 35px #0008, 0 0 18px #f21d3510;
+}
+
+.car-art {
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #30323a, #14151a 75%);
+  border-bottom: 1px solid #292c34;
+}
+
+.car-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform .35s;
+}
+
+.card:hover .car-art img {
+  transform: scale(1.045);
+}
+
+.card-content {
+  padding: 19px;
+}
+
+.brand {
+  color: #ff5265;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.card h3 {
+  margin: 6px 0 13px;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.spec {
+  color: #c1c4cd;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.price {
+  margin-top: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.detail-link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 9px 13px;
+  color: white;
+  background: linear-gradient(110deg, #b30f26, #f21d35);
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: .3px;
+}
+
+.compare {
+  margin-top: 48px;
+  padding: clamp(18px, 4vw, 32px);
+  background: linear-gradient(145deg, #191b21, #101115);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.compare select {
+  max-width: 100%;
+  margin: 5px;
+}
+
+button {
+  background: linear-gradient(110deg, #b30f26, #f21d35);
+  border: 0;
+  font-weight: bold;
+  cursor: pointer;
+  transition: filter .2s, transform .2s;
+}
+
+button:hover {
+  filter: brightness(1.18);
+  transform: translateY(-1px);
+}
+
+#result {
+  margin-top: 20px;
+  line-height: 1.8;
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+}
+
+#result table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+#result th {
+  padding: 13px 10px;
+  color: #ff6374;
+  background: #202229;
+  text-align: center;
+}
+
+#result td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #30333b;
+  text-align: center;
+}
+
+#result td:first-child {
+  text-align: left;
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 55px;
+  padding: 28px 15px;
+  color: #8f939d;
+  background: #0d0e12;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .5px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 38px 14px;
+  }
+
+  header h1 {
+    letter-spacing: 3px;
+  }
+
+  nav {
+    gap: 22px;
+  }
+
+  main {
+    padding: 22px 14px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 12px;
+  }
+
+  .car-art {
+    height: 145px;
+  }
+
+  .card-content {
+    padding: 13px;
+  }
+
+  .card h3 {
+    font-size: 17px;
+  }
+
+  .spec {
+    font-size: 12px;
+  }
+
+  .compare {
+    padding: 15px;
+  }
+
+  .tools > * {
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
