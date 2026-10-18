@@ -303,9 +303,7 @@ async function findCarPhoto(car) {
     iiurlwidth: "1000"
   });
 
-  try {
-    const response = await fetch(
-      "https://commons.wikimedia.org/w/api.php?" + params
+ 
     );
 
     if (!response.ok) return "";
@@ -383,18 +381,7 @@ async function loadMissingPhotos() {
     }
   }
 }
-async function loadMissingPhotos() {
-  for (const car of cars) {
-    if (!car.image) {
-      const photo = await findCarPhoto(car);
 
-      if (photo) {
-        car.image = photo;
-        renderCars();
-      }
-    }
-  }
-}
   function renderCars(){
  const term=search.value.trim().toLocaleLowerCase("tr");
  const brand=brandFilter.value;
