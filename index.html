@@ -265,16 +265,22 @@ const photoByCar = {
 "Veyron Super Sport": "https://commons.wikimedia.org/wiki/Special:FilePath/BugattiVeyronSuperSport.jpg",
 };
 
-const cars = rawCars.map((c, i) => ({
-  id: i + 1,
-  name: c[0],
-  brand: c[1],
-  power: c[2],
-  zero: c[3],
-  speed: c[4],
-  price: c[5],
-  image: photoByCar[c[0]] || ""
-}));
+const cars = rawCars.map((c, i) => {
+  const photo = photoByCar[c[0]] || "";
+
+  return {
+    id: i + 1,
+    name: c[0],
+    brand: c[1],
+    power: c[2],
+    zero: c[3],
+    speed: c[4],
+    price: c[5],
+    image: photo.includes("commons.wikimedia.org")
+      ? photo
+      : ""
+  };
+});
 
 const grid = document.getElementById("carGrid");
 const search = document.getElementById("search");
