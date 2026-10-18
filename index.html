@@ -275,6 +275,30 @@ footer{border-top:1px solid var(--line);margin-top:65px;padding:30px 5%;color:va
     transition: none;
   }
 }
+.car-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.car-card.scroll-reveal-pending {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.car-card.scroll-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 650ms ease, transform 650ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-card.scroll-reveal-pending,
+  .car-card.scroll-reveal-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -727,28 +751,54 @@ document.getElementById("compareButton").addEventListener("click", () => {
 search.addEventListener("input", renderCars);
 brandFilter.addEventListener("change", renderCars);
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("reveal-visible");
-      revealObserver.unobserve(entry.target);
+(function setupScrollReveal() {
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function revealCards() {
+    const cards = document.querySelectorAll(".car-card");
+
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      cards.forEach(card => {
+        card.classList.remove("scroll-reveal-pending");
+        card.classList.add("scroll-reveal-visible");
+      });
+      return;
     }
-  });
-}, {
-  threshold: 0.08
-});
 
-function observeCarCards() {
-  document.querySelectorAll(".car-card:not(.reveal-visible)")
-    .forEach((card) => revealObserver.observe(card));
-}
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove("scroll-reveal-pending");
+          entry.target.classList.add("scroll-reveal-visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: "0px 0px -30px 0px"
+    });
 
-const originalRenderCars = renderCars;
+    cards.forEach(card => {
+      if (card.classList.contains("scroll-reveal-visible")) return;
 
-renderCars = function () {
-  originalRenderCars();
-  observeCarCards();
-};
+      card.classList.add("scroll-reveal-pending");
+      observer.observe(card);
+    });
+  }
+
+  const originalRender = renderCars;
+
+  renderCars = function () {
+    originalRender();
+    revealCards();
+  };
+
+  revealCards();
+})();
+
+
 
 search.addEventListener("input", renderCars);
 brandFilter.addEventListener("change", renderCars);
