@@ -383,7 +383,19 @@ async function loadMissingPhotos() {
     }
   }
 }
-function renderCars(){
+async function loadMissingPhotos() {
+  for (const car of cars) {
+    if (!car.image) {
+      const photo = await findCarPhoto(car);
+
+      if (photo) {
+        car.image = photo;
+        renderCars();
+      }
+    }
+  }
+}
+  function renderCars(){
  const term=search.value.trim().toLocaleLowerCase("tr");
  const brand=brandFilter.value;
  const filtered=cars.filter(c=>
