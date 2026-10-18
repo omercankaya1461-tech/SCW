@@ -234,7 +234,27 @@ footer{border-top:1px solid var(--line);margin-top:65px;padding:30px 5%;color:va
 @keyframes introExit {
   to { opacity: 0; visibility: hidden; }
 }
+  box-shadow 0.3s ease;
+}
 
+.car-card.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.car-card.reveal-visible:hover {
+  transform: translateY(-7px) scale(1.015);
+  border-color: #f21d35;
+  box-shadow: 0 12px 35px rgba(242, 29, 53, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 </style>
 </head>
 <body>
