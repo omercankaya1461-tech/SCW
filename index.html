@@ -708,7 +708,31 @@ search.addEventListener("input", renderCars);
 brandFilter.addEventListener("change", renderCars);
 
 renderCars();
-loadMissingPhotos();
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("reveal-visible");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.08
+});
+
+function observeCarCards() {
+  document.querySelectorAll(".car-card:not(.reveal-visible)")
+    .forEach((card) => revealObserver.observe(card));
+}
+
+/* İlk kartları ve sonradan filtrelenen kartları izle */
+observeCarCards();
+
+const originalRenderCars = renderCars;
+renderCars = function () {
+  originalRenderCars();
+  observeCarCards();
+};
+  loadMissingPhotos();
 </script>
 </body>
 </html>
