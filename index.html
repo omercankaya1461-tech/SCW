@@ -21,7 +21,12 @@ input{flex:1;min-width:200px}
 .card{display:block;color:white;text-decoration:none;background:#1c1c23;border:1px solid #34343d;border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
 .card:hover{transform:translateY(-5px);border-color:#ff303d}
 .car-art{height:165px;background:linear-gradient(135deg,#303039,#15151b);overflow:hidden}
-.car-art img{width:100%;height:100%;object-fit:cover;display:block}
+.car-art img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
 .card-content{padding:16px}
 .brand{color:#ff515b;font-size:13px;font-weight:bold;text-transform:uppercase}
 .card h3{margin:8px 0 12px}
