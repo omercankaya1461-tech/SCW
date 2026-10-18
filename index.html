@@ -198,9 +198,19 @@ const rawCars = [
 ["Veyron Super Sport","Bugatti",1200,2.5,431,"Koleksiyon aracı"]
 ];
 
-const cars = rawCars.map((c,i)=>({
- id:i+1,name:c[0],brand:c[1],power:c[2],zero:c[3],speed:c[4],price:c[5],
- image:photos[i%photos.length]
+const photoByCar = {
+  "296 GTB": "https://commons.wikimedia.org/wiki/Special:FilePath/Ferrari_296_GTB_%287LA-171K%29_front.jpg"
+};
+
+const cars = rawCars.map((c, i) => ({
+  id: i + 1,
+  name: c[0],
+  brand: c[1],
+  power: c[2],
+  zero: c[3],
+  speed: c[4],
+  price: c[5],
+  image: photoByCar[c[0]] || photos[i % photos.length]
 }));
 
 const grid=document.getElementById("carGrid");
