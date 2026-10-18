@@ -430,13 +430,13 @@ const rows = categories.map(c => {
         </thead>
         <tbody>
   ${rows}
-  <tr>
-    <td>Yaklaşık fiyat</td>
-    <td>${a.price || "Belirtilmemiş"}</td>
-    <td>${b.price || "Belirtilmemiş"}</td>
-    <td>Fiyatlar değişebilir</td>
-    <td>Kesin kazanan yok</td>
-  </tr>
+ <tr style="background:#252525;">
+    <td style="padding:12px; font-weight:bold;">Yaklaşık fiyat</td>
+    <td style="padding:12px;">${a.price || "Belirtilmemiş"}</td>
+    <td style="padding:12px;">${b.price || "Belirtilmemiş"}</td>
+    <td style="padding:12px;">Fiyatlar değişebilir</td>
+    <td style="padding:12px;">Kesin kazanan yok</td>
+</tr>
 </tbody>
       </table>
 
