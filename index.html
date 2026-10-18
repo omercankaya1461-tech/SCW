@@ -379,7 +379,37 @@ const rows = categories.map(c => {
         : `${nameB} daha fazla kategoride önde.`;
 
   result.innerHTML = `
-    <div style="margin-top:24px; padding:20px;
+   <style>
+#result table {
+  border: 1px solid #444;
+  border-radius: 12px;
+  overflow: hidden;
+  color: #f5f5f5;
+}
+
+#result th {
+  background: #292929;
+  color: #8cffad;
+  padding: 14px 10px;
+  text-align: center;
+  border-bottom: 1px solid #555;
+}
+
+#result td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #383838;
+}
+
+#result tbody tr:nth-child(even) {
+  background: #191919;
+}
+
+#result td:first-child,
+#result th:first-child {
+  text-align: left;
+}
+</style> <div style="margin-top:24px; padding:20px;
       border:1px solid #444; border-radius:16px;
       overflow-x:auto;">
       <h2 style="margin-top:0;">🏁 NORRVEYO Karşılaştırma</h2>
