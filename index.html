@@ -282,22 +282,56 @@ const brandFilter = document.getElementById("brandFilter");
 const resultCount = document.getElementById("resultCount");
 
 async function findCarPhoto(car) {
-  if (car.image) return car.image;
-
   const query = `${car.brand} ${car.name} car`;
+
   const params = new URLSearchParams({
     action: "query",
     format: "json",
     origin: "*",
     generator: "search",
-    gsrsearch: query + " filetype:bitmap",
+    gsrsearch: query,
     gsrnamespace: "6",
-    gsrlimit: "8",
+    gsrlimit: "10",
     prop: "imageinfo",
     iiprop: "url|mime",
     iiurlwidth: "1000"
   });
 
+  try {
+    const response = await fetch(
+      "https://commons.wikimedia.org/w/api.php?" + params
+    );
+
+    if (!response.ok) return "";
+
+    const data = await response.json();
+    const pages = Object.values(data.query?.pages || {});
+
+    const normalize = text =>
+      text.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[_-]/g, " ");
+
+    const modelWords = normalize(car.name)
+      .split(/\s+/)
+      .filter(word => word.length > 2);
+
+    const match = pages.find(page => {
+      const title = normalize(page.title);
+      const info = page.imageinfo?.[0];
+
+      return info?.thumburl &&
+        info.mime?.startsWith("image/") &&
+        modelWords.some(word => title.includes(word));
+    });
+
+    return match?.imageinfo?.[0]?.thumburl || "";
+  } catch (error) {
+    console.error("Fotoğraf aranamadı:", car.name, error);
+    return "";
+  }
+}
   try {
     const response = await fetch(
       "https://commons.wikimedia.org/w/api.php?" + params
